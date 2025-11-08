@@ -1,10 +1,12 @@
-## Greenhouse Climate Control System: PDDL+ Planning
+# Greenhouse Climate Control System: PDDL+ Planning
 
 **Course:** CISC 813 – Automated Planning  
 **Topic:** Continuous and Hybrid Planning (Week 9)  
-**Planner Used:** ENHSP-2020 (PDDL+ compatible hybrid heuristic planner)  
+**Planner Used:** ENHSP-2020 (PDDL+ compatible hybrid heuristic planner)
 
-**Files Included:**
+---
+
+## Files Included
 - `domain.1.pddl`
 - `problem.1.pddl`
 - `problem.2.pddl`
@@ -20,9 +22,10 @@
 This project models an **automated greenhouse** that regulates temperature and humidity for plant growth using a combination of **continuous processes**, **discrete control actions**, and **autonomous environmental events**.
 
 The domain captures the interaction between:
-- **Devices:** heaters, vents, humidifiers, lights.
-- **Environmental factors:** day/night cycles and weather fronts.
-- **Biological growth:** plants mature continuously when conditions are optimal.
+
+- **Devices:** heaters, vents, humidifiers, lights  
+- **Environmental factors:** day/night cycles and weather fronts  
+- **Biological growth:** plants mature continuously when conditions are optimal  
 
 The planner must coordinate actions and processes to achieve a final goal state — a successful **harvest** without system failure.
 
@@ -46,11 +49,12 @@ This domain demonstrates how **temporal and numeric reasoning** combine in a hyb
 ## 2. Domain Structure
 
 The domain defines:
-- **Predicates:** Boolean device states, mode indicators, and failure/harvest conditions.  
-- **Functions:** Continuous state variables for temperature, humidity, and energy.  
-- **Processes:** Continuous environmental and biological dynamics.  
-- **Events:** Autonomous mode shifts (e.g., day/night, weather arrival).  
-- **Actions:** Manual control interventions available to the planner.
+
+- **Predicates:** Boolean device states, mode indicators, and failure/harvest conditions  
+- **Functions:** Continuous state variables for temperature, humidity, and energy  
+- **Processes:** Continuous environmental and biological dynamics  
+- **Events:** Autonomous mode shifts (e.g., day/night, weather arrival)  
+- **Actions:** Manual control interventions available to the planner  
 
 ### Key Actions
 
@@ -123,4 +127,23 @@ Adds a second zone (`z2`) sharing the same energy capacity:
 - `z2` starts fully mature and ready for harvest.  
 - The planner heats `z1` briefly, then harvests both zones.
 
-**Representative Plan:**
+
+## 4. Planner and Validation Notes
+
+enhsp-2020 --domain domain.1.pddl --problem problem.N.pddl \
+  -ha true -h hmrp -wh 4 -sp out.pN.plan
+
+enhsp-2020 --domain domain.1.pddl --problem problem.5.pddl \
+  -ha true -h hsp -wh 10 -sp out.p5.plan
+
+planutils run val -- Validate -v domain.1.pddl problem.N.pddl out.pN.plan
+
+## 5. Summary
+
+- This project showcases a fully functioning hybrid PDDL+ planning domain for autonomous greenhouse control.
+Across five problems, complexity escalates from single-zone continuous control to multi-zone resource coordination under environmental disturbances.
+- The resulting model highlight
+    - Integration of discrete and continous reasoning
+    - Handling of exogenous temporal events
+    - Use of numeric constraints for realistic power and growth management
+- Outcome: All problem files successfully generate valid plans using ENHSP-2020, demonstrating the capability of PDDL+ to model hybrid, real-world control systems.
